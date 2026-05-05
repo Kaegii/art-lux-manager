@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Art Lux - Atendimentos</title>
+</head>
+<body>
+<h1> Gestão de Atendimentos</h1>
+
+<h2> Criar atendimento</h2>
+<form action="/atendimentos/salvar" method="POST">
+    <label>Cliente:</label>
+    <select name="cliente" required>
+        <option value="">--Selecione o Cliente --</option>
+
+        <option th:each="cliente : ${clientes}"
+                th:value="${cliente.id}"
+                th:text="${cliente.nome}">
+        </option>
+    </select>
+
+    <label>Descrição:</label>
+    <textarea name="descricao" rows="4" cols="40"> </textarea>
+
+    <label>Data:</label>
+    <input type="date" name="dataAtendimento" required> <br>
+
+    <label>Valor:</label>
+    <input type="number" name="valor" step="0.01" min="0.00" required> <br>
+
+    <label>Tipo:</label>
+    <select name="tipo" required>
+        <option value="">--Selecione o tipo --</option>
+
+        <option th:each="tipo : ${tipos}"
+                th:value="${tipo}"
+                th:text="${tipo}">
+        </option>
+    </select>
+    <button type="submit">Salvar Atendimento</button>
+</form>
+
+<h3>Atendimentos Criados</h3>
+
+<table id="tabelaAtendimentos">
+    <thead>
+    <tr>
+       <th>ID</th>
+        <th>Cliente</th>
+        <th>Tipo</th>
+        <th>Descrição</th>
+        <th>Data Atendimento</th>
+        <th>Valor</th>
+        <th>Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="atendimento : ${atendimentos}">
+        <td th:text="${atendimento.id}"></td>
+        <td th:text="${atendimento.cliente.nome}"></td>
+        <td th:text="${atendimento.tipo}"></td>
+        <td th:text="${atendimento.descricao}"></td>
+        <td th:text="${atendimento.dataAtendimento}"></td>
+        <td th:text="${atendimento.valor}"></td>
+        <td> <a th:href="@{|/atendimentos/deletar/${atendimento.id}|}"
+                onclick="return confirm('Tem certeza que deseja excluir esse atendimento?
+                Essa ação não pode ser desfeita.');">Excluir</a>
+        </td>
+    </tr>
+    </tbody>
+
+</table>
+<br>
+<a href="/">Voltar para o Menu</a>
+
+</body>
+</html>

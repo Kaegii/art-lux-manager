@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Art Lux - Clientes</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+</head>
+<body>
+
+<h1>Gestão de Clientes</h1>
+
+<h2>Cadastrar Novo Cliente</h2>
+<form action="/clientes/salvar" method="POST">
+    <label>Nome:</label>
+    <input type="text" name="nome" placeholder="Ex.: João da Silva" required> <br>
+
+    <label>Data de Nascimento:</label>
+    <input type="date" name="dataNascimento" max="2025-01-01" required> <br>
+
+    <label>Telefone:</label>
+    <input type="text" name="telefone" placeholder="Ex.: 99 999999999" required> <br>
+
+    <button type="submit">Salvar Cliente</button>
+</form>
+
+<h3>Clientes Cadastrados</h3>
+
+<table id="tabelaClientes">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Telefone</th>
+        <th>Data Nasc.</th>
+        <th>Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="cliente : ${clientes}">
+        <td th:text="${cliente.ID}"></td>
+        <td th:text="${cliente.nome}"></td>
+        <td th:text="${cliente.telefone}"></td>
+        <td th:text="${cliente.dataNascimento}"></td>
+        <td> <a th:href="@{|/clientes/deletar/${cliente.ID}|}"
+                onclick="return confirm('Tem certeza que deseja excluir este cliente?
+                 Essa ação não pode ser desfeita.');">Excluir</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<br>
+<a href="/">Voltar para o Menu</a>
+
+<script>
+    $(document).ready(function() {
+        $('#tabelaClientes').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json"
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
